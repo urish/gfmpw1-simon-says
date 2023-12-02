@@ -13,6 +13,8 @@
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
 
+//NOTE: I DON'T THINK THIS FILE IS USED ANYMORE.
+
 // Include caravel global defines for the number of the user project IO pads 
 `include "defines.v"
 `define USE_POWER_PINS

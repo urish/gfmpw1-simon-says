@@ -22,19 +22,16 @@
  * This wrapper enumerates all of the pins available to the
  * user for the user project.
  *
- * An example user project is provided in this wrapper.  The
- * example should be removed and replaced with the actual
- * user project.
+ * Look for 'REPLACEME' in this file; you should replace those
+ * markers with the actual module/instance names for your design.
  *
  *-------------------------------------------------------------
  */
 
-module user_project_wrapper #(
-    parameter BITS = 32
-) (
+module user_project_wrapper (
 `ifdef USE_POWER_PINS
-    inout vdd,		// User area 5.0V supply
-    inout vss,		// User area ground
+    inout vdd,      // User area 5.0V supply
+    inout vss,      // User area ground
 `endif
 
     // Wishbone Slave ports (WB MI A)
@@ -70,11 +67,14 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
-user_proj_example mprj (
+REPLACEME_project_macro_name REPLACEME_project_macro_name (
 `ifdef USE_POWER_PINS
-	.vdd(vdd),	// User area 1 1.8V power
-	.vss(vss),	// User area 1 digital ground
+    vdd(vdd),   // User area 1 1.8V power
+    vss(vss),   // User area 1 digital ground
 `endif
+
+    // REPLACEME_comment: Replace the port definitions below to match your
+    // actual design ports. They don't have to use these names on the left.
 
     .wb_clk_i(wb_clk_i),
     .wb_rst_i(wb_rst_i),

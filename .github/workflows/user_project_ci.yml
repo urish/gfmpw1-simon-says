@@ -1,17 +1,20 @@
 name: CI
 
 on:
-  # Runs on Every Push
-  push:
-  # Runs on Pull Requests
-  pull_request:
+  # # Runs on Every Push
+  # push:
+  # # Runs on Pull Requests
+  # pull_request:
+  # Re workflow_dispatch: https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_dispatch
   workflow_dispatch:
 
 jobs:
   pdk:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -31,6 +34,8 @@ jobs:
           sudo chown -R $USER:$USER ${{ env.PDK_ROOT }}
           make install
           make openlane
+          echo ${{ env.PDK }}
+          echo $PDK
           make pdk-with-volare
 
       - name: Tarball PDK
@@ -43,12 +48,14 @@ jobs:
           name: pdk-tarball
           path: /tmp/pdk.tar
 
-  user_project_flow_gf180mcuC:
+  user_project_flow_gf180mcuD:
     timeout-minutes: 720
     runs-on: ubuntu-latest
     needs: [pdk]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -95,7 +102,7 @@ jobs:
 
       - name: Harden using Openlane
         run: |
-          make user_proj_example
+          make REPLACEME_project_macro_name
           make user_project_wrapper
 
       - name: run precheck
@@ -105,7 +112,7 @@ jobs:
           export OUTPUT_DIRECTORY=$INPUT_DIRECTORY/mpw_precheck_result
           export OUTPUT=$OUTPUT_DIRECTORY/logs/precheck.log
 
-          git clone --depth=1 -b gfmpw-0d https://github.com/efabless/mpw_precheck.git
+          git clone --depth=1 -b gfmpw-1c https://github.com/efabless/mpw_precheck.git
 
           docker run -v "$PRECHECK_ROOT":"$PRECHECK_ROOT" -v "$INPUT_DIRECTORY":"$INPUT_DIRECTORY" -v "${{ env.PDK_ROOT }}":"${{ env.PDK_ROOT }}" -e INPUT_DIRECTORY="$INPUT_DIRECTORY" -e PDK_ROOT="${{ env.PDK_ROOT }}" -e PDKPATH="${{ env.PDKPATH }}" -u $(id -u "$USER"):$(id -g "$USER") efabless/mpw_precheck:latest bash -c "cd $PRECHECK_ROOT; python3 mpw_precheck.py --input_directory $INPUT_DIRECTORY --pdk_path ${{ env.PDKPATH }} --output_directory $OUTPUT_DIRECTORY license makefile consistency xor magic_drc klayout_beol klayout_feol klayout_met_min_ca_density klayout_offgrid klayout_pin_label_purposes_overlapping_drawing klayout_zeroarea"
 
