@@ -30,12 +30,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          echo 'Here is our environment for installing dependencies:'
+          env
           sudo mkdir -p ${{ env.PDK_ROOT }}
           sudo chown -R $USER:$USER ${{ env.PDK_ROOT }}
           make install
           make openlane
-          echo ${{ env.PDK }}
-          echo $PDK
           make pdk-with-volare
 
       - name: Tarball PDK
