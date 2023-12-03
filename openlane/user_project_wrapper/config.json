@@ -7,22 +7,32 @@
 		"dir::../../verilog/rtl/user_project_wrapper.v"
 	],
 	"CLOCK_PORT": "REPLACEME_clock_port",
-	"CLOCK_NET": "REPLACEME_project_macro_name.REPLACEME_clock_net",
+	"CLOCK_NET": [
+		"REPLACEME_project_macro_name.REPLACEME_clock_net"
+	],
 	"CLOCK_PERIOD": 25,
 	"MACRO_PLACEMENT_CFG": "dir::macro.cfg",
 	"VERILOG_FILES_BLACKBOX": [
 		"dir::../../verilog/gl/REPLACEME_project_macro_name.v"
 	],
-	"EXTRA_LEFS": "dir::../../lef/REPLACEME_project_macro_name.lef",
-	"EXTRA_GDS_FILES": "dir::../../gds/REPLACEME_project_macro_name.gds",
-	"EXTRA_LIBS": "dir::../../lib/REPLACEME_project_macro_name.lib",
+	"EXTRA_LEFS": [
+		"dir::../../lef/REPLACEME_project_macro_name.lef"
+	],
+	"EXTRA_GDS_FILES": [
+		"dir::../../gds/REPLACEME_project_macro_name.gds"
+	],
+	"EXTRA_LIBS": [
+		"dir::../../lib/REPLACEME_project_macro_name.lib"
+	],
 	"EXTRA_SPEFS": [
 		"REPLACEME_project_macro_name",
 		"dir::../../spef/multicorner/REPLACEME_project_macro_name.min.spef",
 		"dir::../../spef/multicorner/REPLACEME_project_macro_name.nom.spef",
 		"dir::../../spef/multicorner/REPLACEME_project_macro_name.max.spef"
 	],
-	"FP_PDN_MACRO_HOOKS": "REPLACEME_project_macro_name vdd vss vdd vss",
+	"FP_PDN_MACRO_HOOKS": [
+		"REPLACEME_project_macro_name vdd vss vdd vss"
+	],
 	"QUIT_ON_SYNTH_CHECKS": 0,
 	"FP_PDN_CHECK_NODES": 0,
 	"SYNTH_ELABORATE_ONLY": 1,
@@ -67,12 +77,8 @@
 	"FP_PDN_HWIDTH": 3.1,
 	"FP_PDN_VSPACING": "expr::5 * $FP_PDN_CORE_RING_VWIDTH",
 	"FP_PDN_HSPACING": 26.9,
-	"VDD_NETS": [
-		"vdd"
-	],
-	"GND_NETS": [
-		"vss"
-	],
+	"VDD_NETS": ["vdd"],
+	"GND_NETS": ["vss"],
 	"SYNTH_USE_PG_PINS_DEFINES": "USE_POWER_PINS",
 	"RUN_LINTER": 0,
 	"FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
