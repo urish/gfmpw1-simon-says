@@ -1,54 +1,80 @@
-# algofoogle-multi-caravel
+# Simon Says game for GFMPW-1 Shuttle
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This is Anton's repo for individually hardening several projects that will target a single GFMPW-1 submission (GF180 Open PDK).
+## About the game
 
-For more info, see: [0181 &sect; 'What I did'](https://github.com/algofoogle/journal/blob/master/0181-2023-12-02.md#what-i-did).
+Simon says is a simple electronic memory game: the user has to repeat a growing sequence of colors.
+The sequence is displayed by lighting up the LEDs. Each color also has a corresponding tone.
 
-**NOTE:** Whichever `gf180-*` branch you're on reflects which project you're in, specifically, and all should be branching from [`gf180-base`](https://github.com/algofoogle/algofoogle-multi-caravel/tree/gf180-base) (which should hopefully be the default).
+In each turn, the game will play the sequence, and then wait for the user to repeat the sequence
+by pressing the buttons according to the color sequence.
+If the user repeated the sequence correctly, the game will play a "leveling-up" sound,
+add a new color at the end of the sequence, and move to the next turn.
 
-The idea is that if general updates are required to `gf180-base`, they should be easy enough to merge to each of the project branches, to keep everything consistent.
+The game continues until the user has made a mistake. Then a game over sound is played, and the game restarts.
+
+## Online simulation
+
+You can play the game using the online Wokwi simulation at https://wokwi.com/projects/371755521090136065.
+The simulation also shows the wiring diagram.
+
+## Hardware
+
+You need four buttons, four LEDs, resistors, and optionally a speaker/buzzer and a two digit 7-segment display for the score.
+
+Ideally, you want to use 4 different colors for the buttons/LEDs (red, green, blue, yellow).
+
+The game requires 10 MHz clock input.
+
+1. Connect the buttons to pins `btn1`, `btn2`, `btn3`, and `btn4`, and also connect each button to a pull down resistor.
+2. Connect the LEDs to pins `led1`, `led2`, `led3`, and `led4`, matching the colors of the buttons (so `led1` and `btn1` have the same color, etc.)
+3. Connect the speaker to the `speaker` pin.
+4. Connect the seven segment display as follows: `seg_a` through `sev_g` to individual segments, `dig1` to the common pin of the first digit, `dig2` to the common pin of the second digit.
+   Set `seginv` according to the type of 7 segment display you have: high for common anode, low for common cathode.
+5. Reset the game, and then press any button to start it. Enjoy!
+
+## Pinout
+
+| mprj_io | Function |
+| ------- | -------- |
+| 8       | btn1     |
+| 9       | btn2     |
+| 10      | btn3     |
+| 11      | btn4     |
+| 12      | led1     |
+| 13      | led2     |
+| 14      | led3     |
+| 15      | led4     |
+| 16      | speaker  |
+| 17      | seg_a    |
+| 18      | seg_b    |
+| 19      | seg_c    |
+| 20      | seg_d    |
+| 21      | seg_e    |
+| 22      | seg_f    |
+| 23      | seg_g    |
+| 24      | dig1     |
+| 25      | dig2     |
+| 26      | seginv   |
 
 ## Hardening
 
-Say you want to harden one of the `gf180-*` project branches... let's use `gf180-rbz-fsm` as an example. Here's a very high-level overview, assuming you already have at least *something* of a working OpenLane environment (or at least the prerequisites installed; see [the original efabless guide](https://github.com/efabless/caravel_user_project/blob/gfmpw-1c/docs/source/index.rst) for more info, but note that the PDK version in that doco might be outdated):
-
-> NOTE: Zero to ASIC VM also redirects certain other things (`MGMT_AREA_ROOT`, `DESIGNS`, `CARAVEL_ROOT`, etc. to subdirectories of `~/asic_tools/caravel_user_project`). Check your `~/.bashrc` for details. I've been trying to make this a bit more flexible (see [Tip 2312A](https://github.com/algofoogle/journal/blob/master/tips/2312A.md) point 5) but note that I've not completed this work yet.
-
-1.  Switch to the branch and set it up for the first time:
+1.  Set up the environment:
     ```bash
-    git checkout gf180-rbz-fsm
     mkdir -p dependencies
-    # Changing OPENLANE_ROOT & PDK_ROOT optional if using Zero to ASIC VM:
-      export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
-      export PDK_ROOT=$(pwd)/dependencies/pdks
-    # Required:
+    export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
+    export PDK_ROOT=$(pwd)/dependencies/pdks
     export PDK=gf180mcuD
     # This will download and install caravel, the PDK, required OpenLane version, etc.
     make setup
     ```
 2.  Each time you want to harden:
+
     ```bash
-    # Optional, as above:
-      export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
-      export PDK_ROOT=$(pwd)/dependencies/pdks
-    # Required:
+    export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src
+    export PDK_ROOT=$(pwd)/dependencies/pdks
     export PDK=gf180mcuD
 
-    # MAIN HARDENING STEP:
-    make top_ew_algofoogle
+    make urish_simon_says
     ```
-
-## Finalisation
-
-**NOTE:** It is expected that each *individual* hardened project branch will be copied into one consolidated caravel_user_project when it is considered stable.
-
-You should find that the information above does not deviate per branch, but the information below intentionally does.
-
-
-# Specific project for branch `gf180-base`: Common base project
-
-You are on the branch that defines the 'clean base' project that is common to all other project branches.
-
-This branch has no `gds/`, `lef/`, etc. because that is the domain of a real project which branches from this base.
