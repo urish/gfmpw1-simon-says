@@ -1,6 +1,6 @@
 `default_nettype none
 
-module urish_simon_says (
+module urish_simon_says #(parameter CLK_KHZ = 16'd10_000) (
     input wb_clk_i,
     input wb_rst_i,
 
@@ -43,7 +43,7 @@ module urish_simon_says (
   simon simon1 (
       .clk   (wb_clk_i),
       .rst   (wb_rst_i),
-      .ticks_per_milli (16'd10_000), // assuming a 10 MHz clock
+      .ticks_per_milli (CLK_KHZ),
       .btn   (btn),
       .led   (led),
       .segments(segments),

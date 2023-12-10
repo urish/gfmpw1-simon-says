@@ -66,6 +66,7 @@ module score (
     if (rst) begin
       ones <= 0;
       tens <= 0;
+      active_digit <= 0;
     end else if (inc) begin
       ones <= ones + 1;
       if (ones == 9) begin
