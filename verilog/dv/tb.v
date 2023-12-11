@@ -25,6 +25,7 @@ module tb ();
 
   reg [3:0] btn;
   reg seginv;
+  reg slow_clk;
   wire [3:0] led = io_out[15:12] & ~io_oeb[15:12];
   wire speaker = io_out[16] & ~io_oeb[16];
   wire [6:0] seg = io_out[23:17] & ~io_oeb[23:17];
@@ -34,10 +35,9 @@ module tb ();
 
   assign io_in[11:8] = btn;
   assign io_in[26]   = seginv;
+  assign io_in[27]   = slow_clk;
 
-  urish_simon_says #(
-      .CLK_KHZ(16'd100)
-  ) simon (
+  urish_simon_says simon (
       // include power ports for the Gate Level test
 `ifdef GL_TEST
       .vdd     (1'b1),

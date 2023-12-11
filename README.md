@@ -25,14 +25,15 @@ You need four buttons, four LEDs, resistors, and optionally a speaker/buzzer and
 
 Ideally, you want to use 4 different colors for the buttons/LEDs (red, green, blue, yellow).
 
-The game requires 10 MHz clock input.
+The game requires 10 MHz clock input (or 100 KHz when `slow_clk` is 1).
 
 1. Connect the buttons to pins `btn1`, `btn2`, `btn3`, and `btn4`, and also connect each button to a pull down resistor.
 2. Connect the LEDs to pins `led1`, `led2`, `led3`, and `led4`, matching the colors of the buttons (so `led1` and `btn1` have the same color, etc.)
 3. Connect the speaker to the `speaker` pin.
 4. Connect the seven segment display as follows: `seg_a` through `sev_g` to individual segments, `dig1` to the common pin of the first digit, `dig2` to the common pin of the second digit.
    Set `seginv` according to the type of 7 segment display you have: high for common anode, low for common cathode.
-5. Reset the game, and then press any button to start it. Enjoy!
+5. Connect `slow_clk` to ground
+6. Reset the game, and then press any button to start it. Enjoy!
 
 ## Pinout
 
@@ -57,6 +58,7 @@ The game requires 10 MHz clock input.
 | 24      | dig1     |
 | 25      | dig2     |
 | 26      | seginv   |
+| 27      | slow_clk |
 
 ## Hardening
 

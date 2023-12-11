@@ -32,6 +32,7 @@ class SimonDriver:
         self._clock = clock
         self._dut.btn.value = 0
         self._dut.seginv.value = 0
+        self._dut.slow_clk.value = 1
 
     async def press_button(self, index):
         """ Press a button for 100 clock cycle, index is zero based """
